@@ -90,12 +90,6 @@ type MesheryDesignPayload struct {
 	Email string `json:"email"`
 }
 
-type SendSnapshotEmailPayload struct {
-	To        string `json:"to"`
-	Subject   string `json:"subject"`
-	ImageURI  string `json:"image_uri"`
-}
-
 // func loader(duration time.Duration) {
 // 	total := int(duration.Seconds()) // Total time in seconds
 // 	progress := 0
@@ -235,7 +229,6 @@ func GenerateSnapshot(contentID, assetLocation, email string, ghAccessToken stri
 func isValidEmail(email string) bool {
 	return emailRegex.MatchString(email)
 }
-
 
 func Main(providerToken, mesheryCloudAPIBaseURL, mesheryAPIBaseURL, workflowAccessToken string) {
 	ProviderToken = providerToken
