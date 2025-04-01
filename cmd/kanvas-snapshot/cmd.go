@@ -67,7 +67,7 @@ var generateKanvasSnapshotCmd = &cobra.Command{
 
 		assetLocation := fmt.Sprintf("https://raw.githubusercontent.com/layer5labs/meshery-extensions-packages/master/action-assets/helm-plugin-assets/%s.png", designID)
 
-		err = GenerateSnapshot(designID, assetLocation, WorkflowAccessToken)
+		err = GenerateSnapshot(designID, assetLocation, email, WorkflowAccessToken)
 		if err != nil {
 			handleError(errors.ErrGeneratingSnapshot(err))
 		}
@@ -75,11 +75,8 @@ var generateKanvasSnapshotCmd = &cobra.Command{
 		if email == "" {
 			// loader(2*time.Minute + 40*time.Second) // Loader running for 2 minutes and 40 seconds
 			Log.Infof("\nSnapshot generated. Snapshot URL: %s\n", assetLocation)
+      Log.Infof("It may take 3-5 minutes for the Kanvas snapshot to display at the above URL.\nTo receive the snapshot via email, use the --email option like this:\n\nhelm helm-kanvas-snapshot -f <chart-URI> [--name <snapshot-name>] [-e <email>]\n")
 		} else {
-			err = sendKanvasSnapshotEmail(email, assetLocation)
-			if err != nil {
-				handleError(errors.ErrSendingSnapshotEmail(err, email))
-			}
 			Log.Infof("\nYou will be notified via email at %s when your Kanvas snapshot is ready.", email)
 		}
 		return nil
@@ -211,8 +208,8 @@ func CreateMesheryDesign(uri, name, email string) (string, error) {
 	return "", errors.ErrCreatingMesheryDesign(fmt.Errorf("failed to extract design ID from response"))
 }
 
-func GenerateSnapshot(contentID, assetLocation string, ghAccessToken string) error {
-	payload := fmt.Sprintf(`{"ref":"master","inputs":{"contentID":"%s","assetLocation":"%s"}}`, contentID, assetLocation)
+func GenerateSnapshot(contentID, assetLocation, email string, ghAccessToken string) error {
+	payload := fmt.Sprintf(`{"ref":"master","inputs":{"contentID":"%s","assetLocation":"%s", "email":"%s"}}`, contentID, assetLocation, email)
 	req, err := http.NewRequest("POST", "https://api.github.com/repos/meshery/helm-kanvas-snapshot/actions/workflows/kanvas.yaml/dispatches", bytes.NewBuffer([]byte(payload)))
 	if err != nil {
 		return err
@@ -237,50 +234,6 @@ func GenerateSnapshot(contentID, assetLocation string, ghAccessToken string) err
 
 func isValidEmail(email string) bool {
 	return emailRegex.MatchString(email)
-}
-
-func sendKanvasSnapshotEmail(email, imageUri string) error {
-	payload := SendSnapshotEmailPayload{
-		To: email,
-		Subject: "Kanvas Design Snapshot",
-		ImageURI: imageUri,
-	}
-
-	payloadBytes, err := json.Marshal(payload)
-	if err != nil {
-		Log.Info("Failed to marshal payload:", err)
-		return errors.ErrDecodingAPI(err)
-	}
-	fullURL := fmt.Sprintf("%s/api/integrations/snapshot/email", MesheryCloudAPIBaseURL)
-
-	// Create the request
-	req, err := http.NewRequest("POST", fullURL, bytes.NewBuffer(payloadBytes))
-	if err != nil {
-		Log.Info("Failed to create new request:", err)
-		return errors.ErrHTTPPostRequest(err)
-	}
-
-	req.Header.Set("Cookie", fmt.Sprintf("provider_token=%s", ProviderToken))
-	req.Header.Set("Origin", MesheryCloudAPIBaseURL)
-	req.Header.Set("Host", MesheryCloudAPIBaseURL)
-	req.Header.Set("Content-Type", "text/plain;charset=UTF-8")
-	req.Header.Set("Accept-Encoding", "gzip, deflate, br, zstd")
-	req.Header.Set("Accept-Language", "en-GB,en-US;q=0.9,en;q=0.8")
-
-
-	client := &http.Client{}
-
-	resp, err := client.Do(req)
-	if err != nil {
-		return errors.ErrHTTPPostRequest(err)
-	}
-	defer resp.Body.Close()
-
-	if resp.StatusCode != http.StatusOK {
-		body, _ := io.ReadAll(resp.Body)
-		return errors.ErrUnexpectedResponseCode(resp.StatusCode, string(body))
-	}
-	return nil
 }
 
 
