@@ -67,7 +67,7 @@ var generateKanvasSnapshotCmd = &cobra.Command{
 
 		assetLocation := fmt.Sprintf("https://raw.githubusercontent.com/layer5labs/meshery-extensions-packages/master/action-assets/helm-plugin-assets/%s.png", designID)
 
-		err = GenerateSnapshot(designID, assetLocation, WorkflowAccessToken)
+		err = GenerateSnapshot(designID, assetLocation, email, WorkflowAccessToken)
 		if err != nil {
 			handleError(errors.ErrGeneratingSnapshot(err))
 		}
@@ -75,8 +75,9 @@ var generateKanvasSnapshotCmd = &cobra.Command{
 		if email == "" {
 			// loader(2*time.Minute + 40*time.Second) // Loader running for 2 minutes and 40 seconds
 			Log.Infof("\nSnapshot generated. Snapshot URL: %s\n", assetLocation)
+      Log.Infof("It may take 3-5 minutes for the Kanvas snapshot to display at the above URL.\nTo receive the snapshot via email, use the --email option like this:\n\nhelm helm-kanvas-snapshot -f <chart-URI> [--name <snapshot-name>] [-e <email>]\n")
 		} else {
-			Log.Info("You will be notified via email when your snapshot is ready.")
+			Log.Infof("\nYou will be notified via email at %s when your Kanvas snapshot is ready.", email)
 		}
 		return nil
 	},
@@ -201,8 +202,8 @@ func CreateMesheryDesign(uri, name, email string) (string, error) {
 	return "", errors.ErrCreatingMesheryDesign(fmt.Errorf("failed to extract design ID from response"))
 }
 
-func GenerateSnapshot(contentID, assetLocation string, ghAccessToken string) error {
-	payload := fmt.Sprintf(`{"ref":"master","inputs":{"contentID":"%s","assetLocation":"%s"}}`, contentID, assetLocation)
+func GenerateSnapshot(contentID, assetLocation, email string, ghAccessToken string) error {
+	payload := fmt.Sprintf(`{"ref":"master","inputs":{"contentID":"%s","assetLocation":"%s", "email":"%s"}}`, contentID, assetLocation, email)
 	req, err := http.NewRequest("POST", "https://api.github.com/repos/meshery/helm-kanvas-snapshot/actions/workflows/kanvas.yaml/dispatches", bytes.NewBuffer([]byte(payload)))
 	if err != nil {
 		return err
