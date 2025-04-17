@@ -7,7 +7,7 @@ on:
 
 jobs:
   update_release_draft:
-    if: github.repository == 'meshery/helm-kanvas-snapshot'
+    if: github.repository == 'meshery-extensions/helm-kanvas-snapshot'
     runs-on: ubuntu-24.04
     steps:
       - name: Drafting release
