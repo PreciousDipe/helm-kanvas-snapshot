@@ -38,7 +38,7 @@ archives:
     files:
       - plugin.yaml
       - LICENSE
-      - install-binary.sh
+      - scripts/install-binary.sh
 
 checksum:
   name_template: 'checksums.txt'
