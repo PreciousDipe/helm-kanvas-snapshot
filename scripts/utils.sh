@@ -17,7 +17,6 @@ fi
 [ -z "$HELM_HOME" ] && HELM_HOME=$(helm env | grep 'HELM_DATA_HOME' | cut -d '=' -f2 | tr -d '"')
 
 mkdir -p "$HELM_HOME"
-ls $HELM_HOME
 : "${HELM_PLUGIN_DIR:="$HELM_HOME/plugins/$PROJECT_NAME"}"
 
 if [ "$SKIP_BIN_INSTALL" = "1" ]; then
@@ -105,7 +104,6 @@ downloadFile() {
 # installFile verifies the SHA256 for the file, then unpacks and
 # installs it.
 installFileFromZip() {
-  echo "installing"
   HELM_TMP="/tmp/$PROJECT_NAME"
   HELM_TMP_BIN="/tmp/$PROJECT_NAME/$PROJECT_NAME_WITH_VERSION/$PROJECT_NAME"
   mkdir -p "$HELM_TMP"
@@ -125,7 +123,7 @@ installFileFromLocal() {
     echo "Failed to get current working directory"
     exit 1
   fi
-  ls -la "$cwd"
+  mkdir -p "$HELM_PLUGIN_DIR"
   echo "Current working directory: $cwd"
   cp -r $cwd/. "$HELM_PLUGIN_DIR"
   mkdir -p "$HELM_PLUGIN_DIR/bin"

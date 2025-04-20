@@ -28,8 +28,6 @@ jobs:
           WORKFLOW_ACCESS_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}          
       - name: Snapshot Meshery Helm Chart
         run: |
-          helm plugin list
-          helm env
           helm helm-kanvas-snapshot -f https://meshery.io/charts/meshery-v0.8.12.tgz --name meshery-chart
 
       
