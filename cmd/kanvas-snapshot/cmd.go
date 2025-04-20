@@ -75,7 +75,7 @@ var generateKanvasSnapshotCmd = &cobra.Command{
 		if email == "" {
 			// loader(2*time.Minute + 40*time.Second) // Loader running for 2 minutes and 40 seconds
 			Log.Infof("\nSnapshot generated. Snapshot URL: %s\n", assetLocation)
-      Log.Infof("It may take 3-5 minutes for the Kanvas snapshot to display at the above URL.\nTo receive the snapshot via email, use the --email option like this:\n\nhelm helm-kanvas-snapshot -f <chart-URI> [--name <snapshot-name>] [-e <email>]\n")
+			Log.Infof("It may take 3-5 minutes for the Kanvas snapshot to display at the above URL.\nTo receive the snapshot via email, use the --email option like this:\n\nhelm helm-kanvas-snapshot -f <chart-URI> [--name <snapshot-name>] [-e <email>]\n")
 		} else {
 			Log.Infof("\nYou will be notified via email at %s when your Kanvas snapshot is ready.", email)
 		}
