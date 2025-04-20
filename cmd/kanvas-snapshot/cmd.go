@@ -154,8 +154,6 @@ func CreateMesheryDesign(uri, name, email string) (string, error) {
 	}
 
 	fullURL := fmt.Sprintf("%s/api/pattern/import", MesheryAPIBaseURL)
-	fmt.Println("LOC:157, Full URL:", fullURL)
-
 	// Create the request
 	req, err := http.NewRequest("POST", fullURL, bytes.NewBuffer(payloadBytes))
 	if err != nil {
@@ -179,7 +177,6 @@ func CreateMesheryDesign(uri, name, email string) (string, error) {
 	}
 	defer resp.Body.Close()
 
-	fmt.Println("LOC:181, Response Status Code:", resp.StatusCode)
 	if resp.StatusCode != http.StatusOK {
 		body, _ := io.ReadAll(resp.Body)
 		return "", errors.ErrUnexpectedResponseCode(resp.StatusCode, string(body))
