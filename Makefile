@@ -81,8 +81,7 @@ local.check: ## Loads all dependencies
 	@go mod tidy
 
 local.build: local.check ## Generates the artifact with 'go build' 
-	@go build -o $(APP_NAME) -ldflags="-s -w -X 'main.providerToken=$(PROVIDER_TOKEN)' -X 'main.workflowAccessToken=$(WORKFLOW_ACCESS_TOKEN)'"
-
+	@go build -o $(APP_NAME) -ldflags="-s -w -X 'main.providerToken=$(PROVIDER_TOKEN)' -X 'main.workflowAccessToken=$(WORKFLOW_ACCESS_TOKEN)' -X 'main.mesheryCloudAPIBaseURL=$(MESHERY_CLOUD_API_BASE_URL)' -X 'main.mesheryAPIBaseURL=$(MESHERY_API_BASE_URL)'"
 
 local.snapshot: local.check ## Generates the artifact with 'go build'
 	GOVERSION=${GOVERSION} BUILD_ENVIRONMENT=${BUILD_ENVIRONMENT} goreleaser build --snapshot --clean
