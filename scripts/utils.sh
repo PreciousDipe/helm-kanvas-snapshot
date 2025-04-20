@@ -17,7 +17,7 @@ fi
 [ -z "$HELM_HOME" ] && HELM_HOME=$(helm env | grep 'HELM_DATA_HOME' | cut -d '=' -f2 | tr -d '"')
 
 mkdir -p "$HELM_HOME"
-
+ls $HELM_HOME
 : "${HELM_PLUGIN_DIR:="$HELM_HOME/plugins/$PROJECT_NAME"}"
 
 if [ "$SKIP_BIN_INSTALL" = "1" ]; then
@@ -125,6 +125,7 @@ installFileFromLocal() {
     echo "Failed to get current working directory"
     exit 1
   fi
+  ls -la "$cwd"
   echo "Current working directory: $cwd"
   cp -r $cwd/. "$HELM_PLUGIN_DIR"
   mkdir -p "$HELM_PLUGIN_DIR/bin"
