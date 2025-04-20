@@ -6,7 +6,7 @@ jobs:
   welcome:
     runs-on: ubuntu-24.04
     if: >-
-      (github.repository == 'meshery/meshery') &&
+      (github.repository == 'meshery-extensions/helm-kanvas-snapshot') &&
       (github.event.action == 'opened') &&
       (github.event.pull_request.author_association != 'COLLABORATOR') &&
       (github.event.pull_request.author_association != 'CONTRIBUTOR') &&
