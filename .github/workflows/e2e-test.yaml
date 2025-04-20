@@ -30,7 +30,6 @@ jobs:
         run: |
           helm plugin list
           helm helm-kanvas-snapshot --help
-          curl -I https://meshery.io/charts/meshery-v0.8.12.tgz
           helm helm-kanvas-snapshot -f https://meshery.io/charts/meshery-v0.8.12.tgz --name meshery-chart
 
       

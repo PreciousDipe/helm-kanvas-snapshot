@@ -178,6 +178,7 @@ func CreateMesheryDesign(uri, name, email string) (string, error) {
 	}
 	defer resp.Body.Close()
 
+	fmt.Println("LOC:181, Response Status Code:", resp.StatusCode)
 	if resp.StatusCode != http.StatusOK {
 		body, _ := io.ReadAll(resp.Body)
 		return "", errors.ErrUnexpectedResponseCode(resp.StatusCode, string(body))
