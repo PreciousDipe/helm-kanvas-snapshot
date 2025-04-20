@@ -1,7 +1,7 @@
 package main
 
 import (
-	cmd "github.com/meshery/helm-kanvas-snapshot/cmd/kanvas-snapshot"
+	cmd "github.com/meshery-extensions/helm-kanvas-snapshot/cmd/kanvas-snapshot"
 )
 
 var (

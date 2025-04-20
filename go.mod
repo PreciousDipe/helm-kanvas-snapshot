@@ -1,4 +1,4 @@
-module github.com/meshery/helm-kanvas-snapshot
+module github.com/meshery-extensions/helm-kanvas-snapshot
 
 go 1.23.4
 

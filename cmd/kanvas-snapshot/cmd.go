@@ -12,8 +12,8 @@ import (
 	"strings"
 
 	"github.com/layer5io/meshkit/logger"
-	"github.com/meshery/helm-kanvas-snapshot/internal/errors"
-	"github.com/meshery/helm-kanvas-snapshot/internal/log"
+	"github.com/meshery-extensions/helm-kanvas-snapshot/internal/errors"
+	"github.com/meshery-extensions/helm-kanvas-snapshot/internal/log"
 	"github.com/spf13/cobra"
 )
 
