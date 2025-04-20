@@ -8,11 +8,7 @@ source scripts/utils.sh
 #Stop execution on any error
 trap "fail_trap" EXIT
 set -e
-initArch
-initOS
-verifySupported
-getDownloadURL
-downloadFile
+make build
 installFile
 echo
 echo "helm-kanvas-snapshot is installed at ${HELM_PLUGIN_DIR}/bin/helm-kanvas-snapshot"

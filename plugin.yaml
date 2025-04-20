@@ -6,8 +6,8 @@ useTunnel: true
 command: "$HELM_PLUGIN_DIR/bin/helm-kanvas-snapshot"
 hooks:
   install: |
-    $HELM_PLUGIN_DIR/install-binary.sh
+    $HELM_PLUGIN_DIR/scripts/install-binary.sh
   update: |
-    $HELM_PLUGIN_DIR/install-binary.sh
+    $HELM_PLUGIN_DIR/scripts/install-binary.sh
   uninstall: |
     echo "Snapshot plugin uninstalled."
