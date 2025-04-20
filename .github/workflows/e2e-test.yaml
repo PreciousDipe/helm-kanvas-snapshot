@@ -1,0 +1,33 @@
+name: E2E Test
+on:
+  pull_request:
+    types: 
+      - opened
+      - synchronize
+      - edited
+
+jobs:
+  e2e-test:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.23"
+      - name: Install Helm
+        run: |
+          curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+          helm version
+      - name: Build and Install Plugin
+        run: |
+          ./scripts/e2e.sh
+        env:
+          PROVIDER_TOKEN: ${{ secrets.PROVIDER_TOKEN }}
+          WORKFLOW_ACCESS_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
+      - name: Snapshot Meshery Helm Chart
+        run: |
+          helm helm-kanvas-snapshot -f https://meshery.io/charts/meshery-v0.8.12.tgz --name meshery-chart
+
+      
