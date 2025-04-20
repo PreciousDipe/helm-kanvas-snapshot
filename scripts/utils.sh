@@ -17,7 +17,6 @@ fi
 [ -z "$HELM_HOME" ] && HELM_HOME=$(helm env | grep 'HELM_DATA_HOME' | cut -d '=' -f2 | tr -d '"')
 
 mkdir -p "$HELM_HOME"
-
 : "${HELM_PLUGIN_DIR:="$HELM_HOME/plugins/$PROJECT_NAME"}"
 
 if [ "$SKIP_BIN_INSTALL" = "1" ]; then
@@ -104,7 +103,7 @@ downloadFile() {
 
 # installFile verifies the SHA256 for the file, then unpacks and
 # installs it.
-installFile() {
+installFileFromZip() {
   HELM_TMP="/tmp/$PROJECT_NAME"
   HELM_TMP_BIN="/tmp/$PROJECT_NAME/$PROJECT_NAME_WITH_VERSION/$PROJECT_NAME"
   mkdir -p "$HELM_TMP"
@@ -117,6 +116,20 @@ installFile() {
   cp "$HELM_TMP_BIN" "$HELM_PLUGIN_DIR/bin"
 }
 
+installFileFromLocal() {
+  echo "Preparing to install into ${HELM_PLUGIN_DIR}"
+  cwd=$(pwd)
+  if [ -z "$cwd" ]; then
+    echo "Failed to get current working directory"
+    exit 1
+  fi
+  mkdir -p "$HELM_PLUGIN_DIR"
+  echo "Current working directory: $cwd"
+  cp -r $cwd/. "$HELM_PLUGIN_DIR"
+  mkdir -p "$HELM_PLUGIN_DIR/bin"
+  cp "$PROJECT_NAME" "$HELM_PLUGIN_DIR/bin"
+}
+
 # fail_trap is executed if an error occurs.
 fail_trap() {
   result=$?
@@ -126,20 +139,3 @@ fail_trap() {
   fi
   exit $result
 }
-
-# Execution
-
-#Stop execution on any error
-trap "fail_trap" EXIT
-set -e
-initArch
-initOS
-verifySupported
-getDownloadURL
-downloadFile
-installFile
-echo
-echo "helm-kanvas-snapshot is installed at ${HELM_PLUGIN_DIR}/bin/helm-kanvas-snapshot"
-echo
-echo "See https://github.com/$PROJECT_GH#readme for more information on getting started."
-

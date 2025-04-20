@@ -154,7 +154,6 @@ func CreateMesheryDesign(uri, name, email string) (string, error) {
 	}
 
 	fullURL := fmt.Sprintf("%s/api/pattern/import", MesheryAPIBaseURL)
-
 	// Create the request
 	req, err := http.NewRequest("POST", fullURL, bytes.NewBuffer(payloadBytes))
 	if err != nil {
@@ -204,7 +203,7 @@ func CreateMesheryDesign(uri, name, email string) (string, error) {
 
 func GenerateSnapshot(contentID, assetLocation, email string, ghAccessToken string) error {
 	payload := fmt.Sprintf(`{"ref":"master","inputs":{"contentID":"%s","assetLocation":"%s", "email":"%s"}}`, contentID, assetLocation, email)
-	req, err := http.NewRequest("POST", "https://api.github.com/repos/meshery/helm-kanvas-snapshot/actions/workflows/kanvas.yaml/dispatches", bytes.NewBuffer([]byte(payload)))
+	req, err := http.NewRequest("POST", "https://api.github.com/repos/meshery-extensions/helm-kanvas-snapshot/actions/workflows/kanvas.yaml/dispatches", bytes.NewBuffer([]byte(payload)))
 	if err != nil {
 		return err
 	}

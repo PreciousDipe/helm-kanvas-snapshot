@@ -71,18 +71,17 @@ endif
 help: ## Prints help (only for targets with comments)
 	@grep -E '^[a-zA-Z0-9._-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
-local.fmt: ## Lints all the Go code in the application.
-	@gofmt -w $(GOFMT_FILES)
-	$(GOBIN)/goimports -w $(GOFMT_FILES)
-	$(GOBIN)/gofumpt -l -w $(GOFMT_FILES)
-	$(GOBIN)/gci write $(GOFMT_FILES) --skip-generated
+# local.fmt: ## Lints all the Go code in the application.
+# 	@gofmt -w $(GOFMT_FILES)
+# 	$(GOBIN)/goimports -w $(GOFMT_FILES)
+# 	$(GOBIN)/gofumpt -l -w $(GOFMT_FILES)
+# 	$(GOBIN)/gci write $(GOFMT_FILES) --skip-generated
 
-local.check: local.fmt ## Loads all dependencies
+local.check: ## Loads all dependencies
 	@go mod tidy
 
-local.build: local.check ## Generates the artifact with 'go build'
-	@go build -o $(APP_NAME) -ldflags="-s -w -X 'main.providerToken=$(PROVIDER_TOKEN)' -X 'main.mesheryCloudAPIBaseURL=$(MESHERY_CLOUD_API_BASE_URL)'  -X 'main.mesheryAPIBaseURL=$(MESHERY_API_BASE_URL)'"
-
+local.build: local.check ## Generates the artifact with 'go build' 
+	@go build -o $(APP_NAME) -ldflags="-s -w -X 'main.providerToken=$(PROVIDER_TOKEN)' -X 'main.workflowAccessToken=$(WORKFLOW_ACCESS_TOKEN)' -X 'main.mesheryCloudAPIBaseURL=$(MESHERY_CLOUD_API_BASE_URL)' -X 'main.mesheryAPIBaseURL=$(MESHERY_API_BASE_URL)'"
 
 local.snapshot: local.check ## Generates the artifact with 'go build'
 	GOVERSION=${GOVERSION} BUILD_ENVIRONMENT=${BUILD_ENVIRONMENT} goreleaser build --snapshot --clean
