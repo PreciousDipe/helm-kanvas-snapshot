@@ -43,7 +43,7 @@ To install the Meshery Snapshot Helm Plugin, use the following steps:
 
 ### Prerequisites
 
-- `helm` must be [installed]( helm plugin install https://github.com/meshery/helm-kanvas-snapshot) on your system.
+- `helm` must be [installed]( helm plugin install https://github.com/meshery-extensions/helm-kanvas-snapshot) on your system.
 - (Optional) A free [Layer5 Cloud](https://cloud.layer5.io) user account.
 
 **Plugin Installation**
@@ -51,7 +51,7 @@ To install the Meshery Snapshot Helm Plugin, use the following steps:
 1. Run the following command to install the Helm Kanvas Snapshot plugin:
 
    ```bash
-   helm plugin install https://github.com/meshery/helm-kanvas-snapshot
+   helm plugin install https://github.com/meshery-extensions/helm-kanvas-snapshot
    ```
 
 3. Verify the installation by running:
@@ -99,7 +99,7 @@ Start by forking the repository. After making your changes, submit a pull reques
 To get started, you'll first need to clone the Meshery Snapshot Helm Plugin repository from GitHub. Run the following command in your terminal:
 
 ```bash
-git clone https://github.com/meshery/helm-kanvas-snapshot.git
+git clone https://github.com/meshery-extensions/helm-kanvas-snapshot.git
 ```
 
 **2. Navigate to the Plugin Directory**

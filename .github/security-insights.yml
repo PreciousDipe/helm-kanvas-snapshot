@@ -1,25 +1,25 @@
 header:
   schema-version: 2.0.0
-  last-updated: '2025-01-01'
-  last-reviewed: '2025-01-01'
-  url: https://github.com/meshery/helm-kanvas-snapshot/blob/master/.github/security-insights.yml
+  last-updated: "2025-01-01"
+  last-reviewed: "2025-01-01"
+  url: https://github.com/meshery-extensions/helm-kanvas-snapshot/blob/master/.github/security-insights.yml
   comment: |
-    This file contains the security insights information for the meshery/helm-kanvas-snapshot repository.
+    This file contains the security insights information for the meshery-extensions/helm-kanvas-snapshot repository.
 
 project:
   name: meshery
   administrators:
-    - name: Lee Calcote 
+    - name: Lee Calcote
       affiliation: Meshery
       email: lee.calcote@layer5.io
       primary: true
-    - name: Sangram Rath 
+    - name: Sangram Rath
       affiliation: Meshery
       email: sangram.rath@gmail.com
       primary: false
   repositories:
     - name: helm-kanvas-snapshot
-      url: https://github.com/meshery/helm-kanvas-snapshot
+      url: https://github.com/meshery-extensions/helm-kanvas-snapshot
       comment: |
         helm-kanvas-snapshot.
   vulnerability-reporting:

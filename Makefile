@@ -58,7 +58,7 @@ DATE?=$(shell date)
 PLATFORM?=$(shell go env GOOS)
 ARCHITECTURE?=$(shell go env GOARCH)
 GOVERSION?=$(shell go version | awk '{printf $$3}')
-BUILD_WITH_FLAGS="-s -w -X 'github.com/meshery/helm-kanvas-snapshot/version.Version=${VERSION}' -X 'github.com/meshery/helm-kanvas-snapshot/version.Env=${BUILD_ENVIRONMENT}' -X 'github.com/meshery/helm-kanvas-snapshot/version.BuildDate=${DATE}' -X 'github.com/meshery/helm-kanvas-snapshot/version.Revision=${REVISION}' -X 'github.com/meshery/helm-kanvas-snapshot/version.Platform=${PLATFORM}/${ARCHITECTURE}' -X 'github.com/meshery/helm-kanvas-snapshot/version.GoVersion=${GOVERSION}'  -X 'main.providerToken=$(PROVIDER_TOKEN)' -X 'main.MesheryCloudApiBaseUrl=$(MESHERY_CLOUD_API_BASE_URL)'  -X 'main.MesheryApiBaseUrl=$(MESHERY_API_BASE_URL)'"
+BUILD_WITH_FLAGS="-s -w -X 'github.com/meshery-extensions/helm-kanvas-snapshot/version.Version=${VERSION}' -X 'github.com/meshery-extensions/helm-kanvas-snapshot/version.Env=${BUILD_ENVIRONMENT}' -X 'github.com/meshery-extensions/helm-kanvas-snapshot/version.BuildDate=${DATE}' -X 'github.com/meshery-extensions/helm-kanvas-snapshot/version.Revision=${REVISION}' -X 'github.com/meshery-extensions/helm-kanvas-snapshot/version.Platform=${PLATFORM}/${ARCHITECTURE}' -X 'github.com/meshery-extensions/helm-kanvas-snapshot/version.GoVersion=${GOVERSION}'  -X 'main.providerToken=$(PROVIDER_TOKEN)' -X 'main.MesheryCloudApiBaseUrl=$(MESHERY_CLOUD_API_BASE_URL)'  -X 'main.MesheryApiBaseUrl=$(MESHERY_API_BASE_URL)'"
 
 # Get the currently used golang install path (in GOPATH/bin, unless GOBIN is set)
 ifeq (,$(shell go env GOBIN))

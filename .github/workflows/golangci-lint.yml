@@ -22,7 +22,7 @@ on:
 jobs:
   golangci:
     name: golangci-lint
-    if: github.repository == 'meshery/helm-kanvas-snapshot'
+    if: github.repository == 'meshery-extensions/helm-kanvas-snapshot'
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
@@ -38,7 +38,7 @@ jobs:
           skip-cache: true
   build:
     name: Build
-    if: github.repository == 'meshery/helm-kanvas-snapshot'
+    if: github.repository == 'meshery-extensions/helm-kanvas-snapshot'
     runs-on: macos-latest
     needs: [golangci]
     steps:

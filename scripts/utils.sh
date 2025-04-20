@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 PROJECT_NAME="helm-kanvas-snapshot"
-PROJECT_GH="meshery/$PROJECT_NAME"
+PROJECT_GH="meshery-extensions/$PROJECT_NAME"
 
 # Convert the HELM_PLUGIN_PATH to unix if cygpath is
 # available. This is the case when using MSYS2 or Cygwin
