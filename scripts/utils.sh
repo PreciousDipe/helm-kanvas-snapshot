@@ -120,6 +120,8 @@ installFileFromZip() {
 
 installFileFromLocal() {
   echo "Preparing to install into ${HELM_PLUGIN_DIR}"
+  cwd=$(pwd)
+  cp -a $cwd/. "$HELM_PLUGIN_DIR"
   mkdir -p "$HELM_PLUGIN_DIR/bin"
   cp "$PROJECT_NAME" "$HELM_PLUGIN_DIR/bin"
 }
