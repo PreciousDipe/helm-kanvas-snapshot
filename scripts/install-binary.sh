@@ -27,7 +27,7 @@ initOS
 verifySupported
 getDownloadURL
 downloadFile
-installFile
+installFileFromZip
 echo
 echo "helm-kanvas-snapshot is installed at ${HELM_PLUGIN_DIR}/bin/helm-kanvas-snapshot"
 echo

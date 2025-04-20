@@ -104,7 +104,8 @@ downloadFile() {
 
 # installFile verifies the SHA256 for the file, then unpacks and
 # installs it.
-installFile() {
+installFileFromZip() {
+  echo "installing"
   HELM_TMP="/tmp/$PROJECT_NAME"
   HELM_TMP_BIN="/tmp/$PROJECT_NAME/$PROJECT_NAME_WITH_VERSION/$PROJECT_NAME"
   mkdir -p "$HELM_TMP"
@@ -115,6 +116,12 @@ installFile() {
   echo "Preparing to install into ${HELM_PLUGIN_DIR}"
   mkdir -p "$HELM_PLUGIN_DIR/bin"
   cp "$HELM_TMP_BIN" "$HELM_PLUGIN_DIR/bin"
+}
+
+installFileFromLocal() {
+  echo "Preparing to install into ${HELM_PLUGIN_DIR}"
+  mkdir -p "$HELM_PLUGIN_DIR/bin"
+  cp "$PROJECT_NAME" "$HELM_PLUGIN_DIR/bin"
 }
 
 # fail_trap is executed if an error occurs.
