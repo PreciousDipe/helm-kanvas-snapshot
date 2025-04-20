@@ -154,6 +154,7 @@ func CreateMesheryDesign(uri, name, email string) (string, error) {
 	}
 
 	fullURL := fmt.Sprintf("%s/api/pattern/import", MesheryAPIBaseURL)
+	fmt.Println("LOC:157, Full URL:", fullURL)
 
 	// Create the request
 	req, err := http.NewRequest("POST", fullURL, bytes.NewBuffer(payloadBytes))
