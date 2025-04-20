@@ -121,6 +121,10 @@ installFileFromZip() {
 installFileFromLocal() {
   echo "Preparing to install into ${HELM_PLUGIN_DIR}"
   cwd=$(pwd)
+  if [ -z "$cwd" ]; then
+    echo "Failed to get current working directory"
+    exit 1
+  fi
   cp -a $cwd/. "$HELM_PLUGIN_DIR"
   mkdir -p "$HELM_PLUGIN_DIR/bin"
   cp "$PROJECT_NAME" "$HELM_PLUGIN_DIR/bin"
