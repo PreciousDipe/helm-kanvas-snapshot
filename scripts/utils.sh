@@ -125,7 +125,8 @@ installFileFromLocal() {
     echo "Failed to get current working directory"
     exit 1
   fi
-  cp -a $cwd/. "$HELM_PLUGIN_DIR"
+  echo "Current working directory: $cwd"
+  cp -r $cwd/. "$HELM_PLUGIN_DIR"
   mkdir -p "$HELM_PLUGIN_DIR/bin"
   cp "$PROJECT_NAME" "$HELM_PLUGIN_DIR/bin"
 }
