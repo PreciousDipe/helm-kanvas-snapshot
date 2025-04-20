@@ -1,10 +1,16 @@
 name: E2E Test
 on:
   pull_request:
-    types: 
+    types:
       - opened
       - synchronize
       - edited
+  workflow_dispatch:
+    inputs:
+      helm_chart_version:
+        description: 'Meshery Helm Chart Version'
+        required: false
+        default: 'v0.8.58' # Default value for the Helm chart version
 
 jobs:
   e2e-test:
@@ -21,14 +27,14 @@ jobs:
           curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
           helm version
       - name: Build and Install Plugin
-        run: | 
+        run: |
           ./scripts/e2e.sh
         env:
           PROVIDER_TOKEN: ${{ secrets.PROVIDER_TOKEN }}
-          WORKFLOW_ACCESS_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}          
+          WORKFLOW_ACCESS_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}
       - name: Snapshot Meshery Helm Chart
         run: |
           helm plugin list
-          helm helm-kanvas-snapshot -f https://meshery.io/charts/meshery-v0.8.12.tgz --name meshery-chart
-
-      
+          # Use the input variable with a fallback to the default value
+          HELM_CHART_VERSION=${{ github.event.inputs.helm_chart_version || 'v0.8.58' }}
+          helm helm-kanvas-snapshot -f https://meshery.io/charts/meshery-${HELM_CHART_VERSION}.tgz --name meshery-chart
