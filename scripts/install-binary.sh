@@ -14,7 +14,7 @@
 
 #!/usr/bin/env bash
 
-source ${HELM_PLUGIN_DIR}/bin/helm-kanvas-snapshot/scripts/utils.sh
+source ${HELM_PLUGIN_DIR}/scripts/utils.sh
 
 
 
