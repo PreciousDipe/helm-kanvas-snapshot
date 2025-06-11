@@ -14,7 +14,7 @@
 
 #!/usr/bin/env bash
 
-source scripts/utils.sh
+source utils.sh
 
 
 # Execution

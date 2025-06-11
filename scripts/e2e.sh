@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source scripts/utils.sh
+source utils.sh
 
 trap "fail_trap" EXIT
 make PROVIDER_TOKEN=$PROVIDER_TOKEN WORKFLOW_ACCESS_TOKEN=$WORKFLOW_ACCESS_TOKEN local.build
