@@ -3,6 +3,7 @@ package main
 import (
 	cmd "github.com/meshery-extensions/helm-kanvas-snapshot/cmd/kanvas-snapshot"
 	"github.com/meshery/meshkit"
+	"github.com/meshery-extensions/helm-kanvas-snapshot/internal/log"
 )
 
 var (
