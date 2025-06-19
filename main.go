@@ -2,7 +2,7 @@ package main
 
 import (
 	cmd "github.com/meshery-extensions/helm-kanvas-snapshot/cmd/kanvas-snapshot"
-	"github.com/layer5io/meshkit/logger"
+	"github.com/meshery/meshkit"
 )
 
 var (
