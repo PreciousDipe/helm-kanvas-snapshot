@@ -161,9 +161,9 @@ func CreateMesheryDesign(uri, name, email string) (string, error) {
 	}
 
 	// Set headers and log them
-	req.Header.Set("Cookie", fmt.Sprintf("token=%s;meshery-provider=Meshery", ProviderToken))
+	req.Header.Set("Cookie", fmt.Sprintf("token=%s;meshery-provider=Layer5", ProviderToken))
 	req.Header.Set("Origin", MesheryAPIBaseURL)
-	req.Header.Set("Content-Type", "text/plain;charset=UTF-8")
+	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Accept-Encoding", "gzip, deflate, br, zstd")
 	req.Header.Set("Accept-Language", "en-GB,en-US;q=0.9,en;q=0.8")
 
