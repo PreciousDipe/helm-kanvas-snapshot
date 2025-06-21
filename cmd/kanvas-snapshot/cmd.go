@@ -146,7 +146,7 @@ func CreateMesheryDesign(uri, name, email string) (string, error) {
 		Name:  name,
 		Email: email,
 	}
-
+	Log.Info("Value:", ProviderToken)
 	payloadBytes, err := json.Marshal(payload)
 	if err != nil {
 		Log.Info("Failed to marshal payload:", err)
