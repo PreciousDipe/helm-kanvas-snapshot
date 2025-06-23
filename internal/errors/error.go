@@ -15,6 +15,7 @@ var (
 	ErrUnexpectedResponseCodeCode   = "kanvas-snapshot-906"
 	ErrRequiredFieldNotProvidedCode = "kanvas-snapshot-907"
 	ErrInvalidEmailFormatCode       = "kanvas-snapshot-908"
+	ErrGitHubAuthCode               = "kanvas-snapshot-909"
 )
 
 func ErrInvalidChartURI(err error) error {
@@ -29,7 +30,7 @@ func ErrInvalidChartURI(err error) error {
 func ErrCreatingMesheryDesign(err error) error {
 	return errors.New(ErrCreatingMesheryDesignCode, errors.Alert,
 		[]string{"Failed to create Meshery design."},
-		[]string{err.Error()},
+		[]string{fmt.Sprintf("Error: Ensure the Helm chart URI is correct. %s", err.Error())},
 		[]string{"Meshery Design creation failed due to an error."},
 		[]string{"Check Meshery API connection and ensure the payload is correct."},
 	)
@@ -86,5 +87,14 @@ func ErrInvalidEmailFormat(email string) error {
 		[]string{fmt.Sprintf("The provided email '%s' is not a valid email format.", email)},
 		[]string{"The email provided for the Kanvas snapshot request is not in the correct format."},
 		[]string{"Ensure the email address follows the correct format (e.g., user@example.com)."},
+	)
+}
+
+func ErrGitHubAuth(body string) error {
+	return errors.New(ErrGitHubAuthCode, errors.Alert,
+		[]string{"GitHub API authentication failed (bad credentials)."},
+		[]string{fmt.Sprintf("Error: GitHub API authentication failed due to bad credentials. Body: %s", body)},
+		[]string{"GitHub API returned a 401 Unauthorized or bad credentials error."},
+		[]string{"Check that your GitHub workflow access token is valid and has the correct permissions."},
 	)
 }
