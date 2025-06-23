@@ -73,7 +73,6 @@ var generateKanvasSnapshotCmd = &cobra.Command{
 		}
 
 		if email == "" {
-			// loader(2*time.Minute + 40*time.Second) // Loader running for 2 minutes and 40 seconds
 			Log.Infof("\nSnapshot generated. Snapshot URL: %s\n", assetLocation)
 			Log.Infof("It may take 3-5 minutes for the Kanvas snapshot to display at the above URL.\nTo receive the snapshot via email, use the --email option like this:\n\nhelm helm-kanvas-snapshot -f <chart-URI> [--name <snapshot-name>] [-e <email>]\n")
 		} else {
@@ -90,38 +89,6 @@ type MesheryDesignPayload struct {
 	Email string `json:"email"`
 }
 
-// func loader(duration time.Duration) {
-// 	total := int(duration.Seconds()) // Total time in seconds
-// 	progress := 0
-
-// 	for progress <= total {
-// 		printProgressBar(progress, total)
-// 		time.Sleep(1 * time.Second) // Sleep for 1 second to update progress
-// 		progress++
-// 	}
-// 	fmt.Println() // Print a new line at the end for better output formatting
-// }
-
-// func printProgressBar(progress, total int) {
-// 	barWidth := 25
-
-// 	percentage := float64(progress) / float64(total)
-// 	barProgress := int(percentage * float64(barWidth))
-
-// 	bar := "[" + fmt.Sprintf("%s%s", repeat("=", barProgress), repeat("-", barWidth-barProgress)) + "]"
-// 	fmt.Printf("\rProgress %s %.2f%% Complete", bar, percentage*100)
-// }
-
-// Helper function to repeat a character n times
-// func repeat(char string, times int) string {
-// 	result := ""
-// 	for i := 0; i < times; i++ {
-// 		result += char
-// 	}
-// 	return result
-// }
-
-// ExtractNameFromURI extracts the name from the URI
 func ExtractNameFromURI(uri string) string {
 	filename := filepath.Base(uri)
 	return strings.TrimSuffix(filename, filepath.Ext(filename))
@@ -199,25 +166,27 @@ func CreateMesheryDesign(uri, name, email string) (string, error) {
 	return "", errors.ErrCreatingMesheryDesign(fmt.Errorf("failed to extract design ID from response"))
 }
 
-func GenerateSnapshot(contentID, assetLocation, email string, ghAccessToken string) error {
+func GenerateSnapshot(contentID, assetLocation, email string, workflowAccessToken string) error {
 	payload := fmt.Sprintf(`{"ref":"master","inputs":{"contentID":"%s","assetLocation":"%s", "email":"%s"}}`, contentID, assetLocation, email)
 	req, err := http.NewRequest("POST", "https://api.github.com/repos/meshery-extensions/helm-kanvas-snapshot/actions/workflows/kanvas.yaml/dispatches", bytes.NewBuffer([]byte(payload)))
 	if err != nil {
 		return err
 	}
 	req.Header.Set("Accept", "application/vnd.github+json")
-	req.Header.Set("Authorization", "Bearer "+ghAccessToken)
+	req.Header.Set("Authorization", "Bearer "+workflowAccessToken)
 	req.Header.Set("X-GitHub-Api-Version", "2022-11-28")
-
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
 		return err
 	}
 	defer resp.Body.Close()
-	_, err = io.ReadAll(resp.Body)
-	if err != nil {
-		return err
+	body, _ := io.ReadAll(resp.Body)
+	if resp.StatusCode == 401 || resp.StatusCode == 403 {
+		handleError(errors.ErrGitHubAuth(string(body)))
+	}
+	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+		handleError(errors.ErrCreatingMesheryDesign(err))
 	}
 
 	return nil
